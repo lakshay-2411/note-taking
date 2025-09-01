@@ -36,7 +36,7 @@ export const authAPI = {
     api.post('/auth/resend-otp', data),
   
   googleAuth: () => {
-    window.location.href = `${API_BASE_URL}/auth/google`;
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`;
   },
 };
 

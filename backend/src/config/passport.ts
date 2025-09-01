@@ -3,10 +3,19 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import { User, IUser } from '../models/User';
 
 export const initializePassport = () => {
+  if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+    console.log('Google OAuth credentials not found, skipping Google strategy setup');
+    return;
+  }
+  const callbackURL = process.env.NODE_ENV === 'production' 
+    ? `${process.env.BACKEND_URL}/api/auth/google/callback`
+    : "/api/auth/google/callback";
+  console.log("jell", callbackURL);
+  
   passport.use('google', new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    callbackURL: "/api/auth/google/callback",
+    callbackURL: callbackURL,
     scope: ['profile', 'email']
   }, async (accessToken, refreshToken, profile, done) => {
     try {
