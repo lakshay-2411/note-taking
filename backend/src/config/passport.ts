@@ -7,9 +7,7 @@ export const initializePassport = () => {
     console.log('Google OAuth credentials not found, skipping Google strategy setup');
     return;
   }
-  const callbackURL = process.env.NODE_ENV === 'production' 
-    ? `${process.env.BACKEND_URL}/api/auth/google/callback`
-    : "/api/auth/google/callback";
+  const callbackURL = `${process.env.BACKEND_URL}/api/auth/google/callback`;
   console.log("jell", callbackURL);
   
   passport.use('google', new GoogleStrategy({
